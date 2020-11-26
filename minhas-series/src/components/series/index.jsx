@@ -2,19 +2,20 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import {Table, Alert, Button} from 'reactstrap'
 import {Link} from 'react-router-dom'
-export const Generos = () => {
+
+export const Series = () => {
 
     const [data, setData] = useState([])
     useEffect(() => {
         axios
-            .get('/api/genres')
+            .get('/api/series')
             .then(res => {
                 setData(res.data.data)
             })
     })
 
-    const deleteGenero = id => {
-        axios.delete('/api/genres/'+id).then(res => {
+    const deleteSerie = id => {
+        axios.delete('/api/series/'+id).then(res => {
             console.log(res)
         })
     }
@@ -25,8 +26,8 @@ export const Generos = () => {
                 <th scope="row">{record.id}</th>
                 <td>{record.name}</td>
                 <td>
-                    <Button outline onClick={() => deleteGenero(record.id)} color="danger">-</Button>
-                    <Button outline className='ml-1' tag={Link} to={`/generos/${record.id}`} color="primary">Editar</Button>
+                    <Button outline onClick={() => deleteSerie(record.id)} color="danger">-</Button>
+                    <Button outline className='ml-1' tag={Link} to={`/series/${record.id}`} color="primary">Info</Button>
                 </td>
                 
             </tr>
@@ -36,15 +37,15 @@ export const Generos = () => {
     if (data.length === 0){
         return(
             <div className='container'>
-                <Alert color="warning">Ops! Você não possui gêneros criados! :(</Alert>
-                <Button outline tag={Link} className='m-2' to='/generos/novo' color="success">Novo Gênero</Button>
+                <Alert color="warning">Ops! Você não possui séries criadas! :(</Alert>
+                <Button outline tag={Link} className='m-2' to='/series/novo' color="success">Nova Série</Button>
             </div>
         )
     }
 
     return(
         <div className='container'>
-            <h1>Generos</h1>
+            <h1>Séries</h1>
             <Table dark>
                 <thead>
                     <tr>
@@ -56,10 +57,11 @@ export const Generos = () => {
                 <tbody>
                     {data.map(renderizaLinha)}
                     <tr>
-                        <Button outline tag={Link} className='m-2' to='/generos/novo' color="success">Novo Gênero</Button>
+                        <Button outline tag={Link} className='m-2' to='/series/novo' color="success">Nova Série</Button>
                     </tr>
                 </tbody>
             </Table>
         </div>
     )
 }
+export default Series
